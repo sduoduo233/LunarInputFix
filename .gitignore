@@ -1,0 +1,8 @@
+.vs
+LunarInputFix.sln
+x64
+LunarInputFix/x64
+LunarInputFix/framework.h
+LunarInputFix/libMinHook.lib
+LunarInputFix/LunarInputFix.vcxproj*
+LunarInputFix/MinHook.h
