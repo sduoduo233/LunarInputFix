@@ -6,3 +6,9 @@ LunarInputFix/framework.h
 LunarInputFix/libMinHook.lib
 LunarInputFix/LunarInputFix.vcxproj*
 LunarInputFix/MinHook.h
+
+Injector/Injector.csproj
+Injector/Injector.csproj.user
+Injector/Properties
+Injector/bin
+Injector/obj
