@@ -30,10 +30,10 @@ BOOL WINAPI DetourPeekMessageW(LPMSG lpMsg, HWND hWnd, UINT wMsgFilterMin, UINT 
             printf("WM_CHAR hWnd=%p char=%c wParam=0x%llx lParam=0x%llx", lpMsg->hwnd, chr, lpMsg->wParam, lpMsg->lParam);
 
             if (chr > 255) {
-                // 当输入unicode时，取消这次事件
 
                 UINT keycode = VK_PACKET;
                 
+                // keydown VK_PACKET
                 Message msg1 = Message();
                 msg1.hWnd = lpMsg->hwnd;
                 msg1.message = WM_KEYDOWN;
@@ -41,6 +41,7 @@ BOOL WINAPI DetourPeekMessageW(LPMSG lpMsg, HWND hWnd, UINT wMsgFilterMin, UINT 
                 msg1.lParam = 0x1;
                 messages.push_back(msg1);
 
+                // real char
                 Message msg2 = Message();
                 msg2.hWnd = lpMsg->hwnd;
                 msg2.message = WM_CHAR;
@@ -48,6 +49,7 @@ BOOL WINAPI DetourPeekMessageW(LPMSG lpMsg, HWND hWnd, UINT wMsgFilterMin, UINT 
                 msg2.lParam = 0x1;
                 messages.push_back(msg2);
 
+                // keyup VK_PACKET
                 Message msg3 = Message();
                 msg3.hWnd = lpMsg->hwnd;
                 msg3.message = WM_KEYUP;
@@ -64,10 +66,12 @@ BOOL WINAPI DetourPeekMessageW(LPMSG lpMsg, HWND hWnd, UINT wMsgFilterMin, UINT 
 
         if (lpMsg->message == WM_KEYDOWN) {
             printf("WM_KEYDOWN hWnd=%p wParam=0x%llx lParam=0x%llx", lpMsg->hwnd, lpMsg->wParam, lpMsg->lParam);
+            printf("\n");
         }
 
         if (lpMsg->message == WM_KEYUP) {
             printf("WM_KEYUP hWnd=%p wParam=0x%llx lParam=0x%llx", lpMsg->hwnd, lpMsg->wParam, lpMsg->lParam);
+            printf("\n");
         }
 
     }
@@ -90,13 +94,14 @@ BOOL WINAPI DetourPeekMessageW(LPMSG lpMsg, HWND hWnd, UINT wMsgFilterMin, UINT 
 }
 
 void hook() {
-    int i = MessageBox(NULL, (LPCWSTR)L"Create console?", (LPCWSTR)L"LunarInputFix", MB_YESNO);
 
-    if (i == IDYES) {
-        AllocConsole();
-        FILE* fOut;
-        freopen_s(&fOut, "conout$", "w", stdout);
-    }
+#if _DEBUG
+
+    AllocConsole();
+    FILE* fOut;
+    freopen_s(&fOut, "conout$", "w", stdout);
+
+#endif // DEBUG
 
     printf("LunarInputFix by duoduo\n");
 
@@ -118,8 +123,7 @@ void hook() {
         return;
     }
 
-    MessageBox(NULL, (LPCWSTR)L"injected", (LPCWSTR)L"LunarInputFix", 0);
-
+    MessageBox(NULL, (LPCWSTR)L"注入成功", (LPCWSTR)L"LunarInputFix by duoduo", 0);
 }
 
 BOOL APIENTRY DllMain( HMODULE hModule,
