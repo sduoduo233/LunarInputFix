@@ -1,4 +1,5 @@
 # Lunar 已经支持中文输入了
+# Chinese IME is officially supported by Lunar Client
 
 # Lunar Input Fix
 修复 Lunar Client 不能输入中文的 bug， 只支持windows
